@@ -3,25 +3,27 @@ import { useState } from 'react';
 import Axios from 'axios';
 
 function App() {
-  const [name, setName] = useState("");
-  const [yup, setYup] = useState({});
 
-  const fetchData = () => {
-    Axios.get(`https://api.agify.io/?name=${name}`).then((res) => {
-      setYup(res.data); // Set the entire response object
-    });
-  };
+
+  const [message,setMessage]=useState("");
+
+  const handldeClick=(excuse)=>{
+    Axios.get(`https://excuser-three.vercel.app/v1/excuse/${excuse}`).then((res)=>{
+      setMessage(res.data[0].excuse)
+    })
+  }
+
 
   return (
     <div className="App">
-      <input
-        placeholder='Ex..Messi'
-        onChange={(event) => {
-          setName(event.target.value);
-        }}
-      />
-      <button onClick={fetchData}>Predict Age</button>
-      <h1>Predicted Age: {yup.age}</h1>
+      <h1>Generate excuse</h1>
+      <button onClick={()=>handldeClick("party")}>party</button>
+      <br />
+      <button onClick={()=>handldeClick("family")}>family</button>
+      <br />
+      <button onClick={()=>handldeClick("office")}>office</button>
+      <h1>{message}</h1>
+
     </div>
   );
 }
